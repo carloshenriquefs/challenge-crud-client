@@ -1,5 +1,6 @@
 package com.devsuperior.challenge.dto;
 
+import com.devsuperior.challenge.entities.Client;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
@@ -26,6 +27,15 @@ public class ClientDTO {
         this.income = income;
         this.birthDate = birthDate;
         this.children = children;
+    }
+
+    public ClientDTO(Client client) {
+        this.id = client.getId();
+        this.name = client.getName();
+        this.cpf = client.getCpf();
+        this.income = client.getIncome();
+        this.birthDate = client.getBirthDate();
+        this.children = client.getChildren();
     }
 
     public Long getId() {
