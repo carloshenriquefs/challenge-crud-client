@@ -9,11 +9,11 @@ import java.time.LocalDate;
 public class ClientDTO {
 
     private Long id;
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "O campo name não pode ser vazio")
     private String name;
     private String cpf;
     private Double income;
-    @PastOrPresent
+    @PastOrPresent(message = "O campo birthDate não pode ser data futura")
     private LocalDate birthDate;
     private Integer children;
 
