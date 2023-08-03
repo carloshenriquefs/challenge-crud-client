@@ -3,6 +3,7 @@ package com.devsuperior.challenge.controller;
 import com.devsuperior.challenge.dto.ClientDTO;
 import com.devsuperior.challenge.service.ClientService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,12 @@ public class ClientController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(clientDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(clientDTO);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDTO) {
+        clientDTO = clientService.update(id, clientDTO);
+        return ResponseEntity.ok(clientDTO);
     }
 
     @DeleteMapping(value = "/{id}")

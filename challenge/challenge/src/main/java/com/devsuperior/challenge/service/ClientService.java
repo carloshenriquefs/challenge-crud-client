@@ -43,6 +43,18 @@ public class ClientService {
         return new ClientDTO(client);
     }
 
+    @Transactional
+    public ClientDTO update(Long id, ClientDTO dto) {
+        try {
+            Client client = clientRepository.getReferenceById(id);
+            copyDtoToEntity(dto, client);
+            client = clientRepository.save(client);
+            return new ClientDTO(client);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(RECURSO_NAO_ENCONTRADO);
+        }
+    }
+
     public void delete(Long id) {
         if (!clientRepository.existsById(id)) {
             throw new ResourceNotFoundException(RECURSO_NAO_ENCONTRADO);
