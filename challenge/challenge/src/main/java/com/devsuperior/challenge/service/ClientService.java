@@ -5,6 +5,7 @@ import com.devsuperior.challenge.entities.Client;
 import com.devsuperior.challenge.repositories.ClientRepository;
 import com.devsuperior.challenge.service.exceptions.DatabaseException;
 import com.devsuperior.challenge.service.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -28,9 +29,18 @@ public class ClientService {
         return new ClientDTO(client);
     }
 
+    @Transactional(readOnly = true)
     public Page<ClientDTO> findAll(Pageable pageable) {
         Page<Client> result = clientRepository.findAll(pageable);
         return result.map(x -> new ClientDTO(x));
+    }
+
+    @Transactional
+    public ClientDTO insert(ClientDTO dto) {
+        Client client = new Client();
+        copyDtoToEntity(dto, client);
+        client = clientRepository.save(client);
+        return new ClientDTO(client);
     }
 
     public void delete(Long id) {
@@ -43,4 +53,13 @@ public class ClientService {
             throw new DatabaseException(FALHA_INTEGRIDADE_REFERENCIAL);
         }
     }
+
+    private void copyDtoToEntity(ClientDTO dto, Client client) {
+        client.setName(dto.getName());
+        client.setCpf(dto.getCpf());
+        client.setIncome(dto.getIncome());
+        client.setBirthDate(dto.getBirthDate());
+        client.setChildren(dto.getChildren());
+    }
+
 }
