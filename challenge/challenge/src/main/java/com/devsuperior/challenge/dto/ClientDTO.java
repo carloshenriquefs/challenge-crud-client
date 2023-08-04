@@ -1,20 +1,27 @@
 package com.devsuperior.challenge.dto;
 
 import com.devsuperior.challenge.entities.Client;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class ClientDTO {
 
     private Long id;
-    @NotBlank(message = "O campo name não pode ser vazio")
+
+    @Size(min = 3, max = 80, message = "O campo 'name' precisa ter de 3 a 80 caracteres.")
+    @NotBlank(message = "O campo 'name' não pode ser vazio.")
     private String name;
+    @NotBlank(message = "O campo 'cpf' não pode ser vazio.")
     private String cpf;
+    @Positive(message = "O campo 'income' deve ser positivo.")
+    @NotNull(message = "O campo 'income' não pode ser vazio.")
     private Double income;
-    @PastOrPresent(message = "O campo birthDate não pode ser data futura")
+    @PastOrPresent(message = "O campo 'birthDate' não pode ser data futura.")
+    @NotNull(message = "O campo 'birthDate' não pode ser vazio.")
     private LocalDate birthDate;
+    @Positive(message = "O campo 'children' deve ser positivo.")
+    @NotNull(message = "O campo 'children' não pode ser vazio.")
     private Integer children;
 
     public ClientDTO() {
